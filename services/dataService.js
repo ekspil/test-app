@@ -39,6 +39,15 @@ class DataService {
         })
 
     }
+    async getDataOne (id) {
+        const entityRow = await this.redis.hgetall(`entity:${id}`)
+        const entity = {}
+        for( let item of entityRow){
+            entity[item[0]] = Number(Number(item[1]).toFixed(2))
+        }
+        return new Entity(entity)
+
+    }
 }
 
 module.exports = DataService

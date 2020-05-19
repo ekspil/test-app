@@ -4,9 +4,21 @@ const router = express.Router()
 const DataService = require("../services/dataService")
 const service = new DataService()
 
-router.get("/get", async function(req, res) {
+router.get("/getAll", async function(req, res) {
     try {
-        const entities = await service.getData(req.body)
+        const entities = await service.getData()
+        JSON.stringify(entities)
+        res.setHeader("Access-Control-Allow-Origin", "*")
+        res.send(entities)
+    }
+    catch(err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+router.get("/getOne", async function(req, res) {
+    try {
+        const entities = await service.getDataOne(req.query.id)
         JSON.stringify(entities)
         res.setHeader("Access-Control-Allow-Origin", "*")
         res.send(entities)
